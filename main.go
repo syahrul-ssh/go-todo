@@ -16,7 +16,7 @@ func main() {
 
 	// Test handler
 	api.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("App is Running!")
+		return c.SendString("App is Running perfectly!")
 	})
 
 	log.Fatal(app.Listen(":5000"))
