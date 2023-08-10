@@ -4,6 +4,8 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/syahrul-ssh/go-todo/database"
+	"github.com/syahrul-ssh/go-todo/todo"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -11,13 +13,11 @@ import (
 func main() {
 	app := fiber.New()
 	app.Use(cors.New())
+	database.ConnectDB()
+	defer database.DB.Close()
 
 	api := app.Group("/api")
-
-	// Test handler
-	api.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("App is Running perfectly!")
-	})
+	todo.Register(api, database.DB)
 
 	log.Fatal(app.Listen(":5000"))
 }
